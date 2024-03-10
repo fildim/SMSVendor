@@ -18,8 +18,15 @@ namespace SMSVendor.Controllers
         [HttpPost]
         public IActionResult SendSMS(RequestDTO requestDTO)
         {
-            _smsService.SendSMS(requestDTO);
-            return Ok("SMS sent suceesfully");
+            try
+            {
+                _smsService.SendSMS(requestDTO);
+                return Ok("SMS sent suceesfully");
+            }
+            catch (Exception )
+            {
+                return BadRequest("Try again");
+            }
         }
 
     }

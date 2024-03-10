@@ -35,8 +35,7 @@ namespace SMSVendor.Services
                     vendor.Send(new Message
                     {
                         Recipient = requestDTO.Number,
-                        Text = requestDTO.Message,
-                        Created = DateTime.UtcNow
+                        Text = requestDTO.Message
                     });
                 }
             }
