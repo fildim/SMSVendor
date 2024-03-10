@@ -24,7 +24,7 @@ namespace SMSVendor.Services
             try
             {
                 string countryCode = requestDTO.Number.Substring(0, 4);
-                ISMSVendor vendor = _vendors[countryCode];
+                ISMSVendor vendor = _vendors.GetValueOrDefault(countryCode, _vendors["Other"]);
 
                 if (requestDTO.Message.Length > 480)
                 {
