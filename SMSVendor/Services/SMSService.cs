@@ -3,9 +3,12 @@ using SMSVendor.Models;
 
 namespace SMSVendor.Services
 {
-    
+    public interface ISMSService
+    {
+        void SendSMS(InnerDTO sms);
+    }
 
-    public class SMSService
+    public class SMSService : ISMSService
     {
         private readonly Dictionary<string, ISMSVendor> _vendors;
 

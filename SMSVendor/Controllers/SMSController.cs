@@ -11,7 +11,7 @@ namespace SMSVendor.Controllers
     [Route("api/[controller]")]
     public class SMSController : ControllerBase
     {
-        private readonly SMSService _smsService;
+        private readonly ISMSService _smsService;
         private readonly SMSRequestMapper _smsRequestMapper;
 
         public SMSController(SMSService smsService, SMSRequestMapper smsRequestMapper)
