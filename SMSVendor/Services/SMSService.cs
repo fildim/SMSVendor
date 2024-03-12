@@ -19,14 +19,14 @@ namespace SMSVendor.Services
             };
         }
 
-        public void SendSMS(RequestDTO requestDTO)
+        public void SendSMS(InnerDTO sms)
         {
             try
             {
-                string countryCode = requestDTO.Number.Substring(0, 4);
+                string countryCode = sms.RecipientNumber.Substring(0, 4);
                 ISMSVendor vendor = _vendors.GetValueOrDefault(countryCode, _vendors["Other"]);
 
-                if (requestDTO.Message.Length > 480)
+                if (sms.SMSText.Length > 480)
                 {
                     throw new Exception("Message too big");
                 }
@@ -34,8 +34,8 @@ namespace SMSVendor.Services
                 {
                     vendor.Send(new Message
                     {
-                        Recipient = requestDTO.Number,
-                        Text = requestDTO.Message
+                        Recipient = sms.RecipientNumber,
+                        Text = sms.SMSText
                     });
                 }
             }

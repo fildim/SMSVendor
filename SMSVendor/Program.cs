@@ -25,6 +25,8 @@ namespace SMSVendor
             builder.Services.AddScoped<SMSService>();
 
 
+            builder.Services.AddAutoMapper(System.Reflection.Assembly.GetExecutingAssembly());
+
 
 
             var app = builder.Build();
