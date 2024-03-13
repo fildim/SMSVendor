@@ -12,22 +12,22 @@ namespace SMSVendor.Controllers
     public class SMSController : ControllerBase
     {
         private readonly ISMSService _smsService;
-        private readonly SMSRequestMapper _smsRequestMapper;
+        private readonly IMapper _smsRequestMapper;
 
-        public SMSController(SMSService smsService, SMSRequestMapper smsRequestMapper)
+        public SMSController(ISMSService smsService, IMapper smsRequestMapper)
         {
             _smsService = smsService;
             _smsRequestMapper = smsRequestMapper;
         }
 
         [HttpPost]
-        public IActionResult SendSMS(RequestDTO requestDTO)
+        public async Task<Object> SendSMS([FromRoute]RequestDTO requestDTO)
         {
             var sms = _smsRequestMapper.Map<InnerDTO>(requestDTO);
 
             try
             {
-                _smsService.SendSMS(sms);
+                await _smsService.SendSMS(sms);
                 return Ok("SMS sent succesfully");
             }
             catch (Exception )

@@ -6,7 +6,7 @@ namespace SMSVendor.Services
 {
     public interface ISMSVendor
     {
-        void Send(Message message);
+        Task Send(Message message);
     }
 
     public class GreekSMSVendor : ISMSVendor
@@ -18,11 +18,11 @@ namespace SMSVendor.Services
             _messageRepository = messageRepository;
         }
 
-        public void Send(Message message)
+        public async Task Send(Message message)
         {
             if (ContainsOnlyGreekCharacters(message.Text))
             {
-                _messageRepository.Send(message);
+                await _messageRepository.Send(message); 
             }
             else
             {
@@ -56,11 +56,11 @@ namespace SMSVendor.Services
             _messageRepository = messageRepository;
         }
 
-        public void Send(Message message)
+        public async Task Send(Message message)
         {
             if (message.Text.Length <= 160)
             {
-                _messageRepository.Send(message);
+                await _messageRepository.Send(message);
             }
             else
             {
@@ -69,7 +69,7 @@ namespace SMSVendor.Services
                 foreach (string part in messageParts)
                 {
                     // Send each part as a separate SMS
-                    _messageRepository.Send(new Message { Recipient = message.Recipient, Text = part });
+                    await _messageRepository.Send(new Message { Recipient = message.Recipient, Text = part });
                 }
             }
             
@@ -100,9 +100,9 @@ namespace SMSVendor.Services
             _messageRepository = messageRepository;
         }
 
-        public void Send(Message message) 
+        public async Task Send(Message message) 
         {
-            _messageRepository.Send(message);
+            await _messageRepository.Send(message);
         }
     }
 

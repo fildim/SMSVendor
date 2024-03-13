@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SMSVendor.Models;
+using SMSVendor.Repositories;
 using SMSVendor.Services;
 
 namespace SMSVendor
@@ -22,7 +23,9 @@ namespace SMSVendor
             builder.Services.AddScoped<ISMSVendor, GreekSMSVendor>();
             builder.Services.AddScoped<ISMSVendor, CyprusSMSVendor>();
             builder.Services.AddScoped<ISMSVendor, RestSMSVendor>();
-            builder.Services.AddScoped<SMSService>();
+            builder.Services.AddScoped<ISMSService, SMSService>();
+
+            builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 
             builder.Services.AddAutoMapper(System.Reflection.Assembly.GetExecutingAssembly());
@@ -40,9 +43,8 @@ namespace SMSVendor
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-
             app.UseRouting();
+                        
 
             app.MapControllers();
 

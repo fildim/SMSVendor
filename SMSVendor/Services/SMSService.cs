@@ -1,11 +1,12 @@
-﻿using SMSVendor.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using SMSVendor.DTOs;
 using SMSVendor.Models;
 
 namespace SMSVendor.Services
 {
     public interface ISMSService
     {
-        void SendSMS(InnerDTO sms);
+        Task SendSMS(InnerDTO sms);
     }
 
     public class SMSService : ISMSService
@@ -18,15 +19,15 @@ namespace SMSVendor.Services
             {
                 { "GR", grSMSVendor },
                 { "CY", cySMSVendor },
-                { "Other", restSMSVendor }
+                { "OT", restSMSVendor }
             };
         }
 
-        public void SendSMS(InnerDTO sms)
+        public async Task SendSMS(InnerDTO sms)
         {
             try
             {
-                string countryCode = sms.RecipientNumber.Substring(0, 4);
+                string countryCode = sms.RecipientNumber.Substring(0, 2);
                 ISMSVendor vendor = _vendors.GetValueOrDefault(countryCode, _vendors["Other"]);
 
                 if (sms.SMSText.Length > 480)
@@ -35,7 +36,7 @@ namespace SMSVendor.Services
                 }
                 else
                 {
-                    vendor.Send(new Message
+                    await vendor.Send(new Message
                     {
                         Recipient = sms.RecipientNumber,
                         Text = sms.SMSText
